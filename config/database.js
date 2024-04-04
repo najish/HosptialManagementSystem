@@ -6,8 +6,6 @@ const sequelize = new Sequelize('hospitalmanagementsystem','root','Zafer1998@',{
     port: 3306
 })
 
-
-
 async function connection() {
     try {
         sequelize.authenticate().then(() => connection.log('connected to database')).catch(err => new Error(err))

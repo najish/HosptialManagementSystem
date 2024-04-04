@@ -1,42 +1,40 @@
-const sequelize = require('../config/database')
 const {Sequelize, DataTypes} = require('sequelize')
+const sequelize = require('../config/database')
 
-const Doctor = sequelize.define('Doctor',{
-    id: {
+const User = sequelize.define('user',{
+    userId: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
     },
-    
+
     name: {
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    specialization: {
+    email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
 
-    experience: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-
-    licenseNumber: {
+    password: {
         type: DataTypes.STRING,
         allowNull: false
     }
+
+
 },{
     freezeTableName: true,
     timestamps: false
 })
 
-async function createDoctor () {
-    await Doctor.sync({alter: true})
+
+async function createUser() {
+    await User.sync({alter: true})
 }
 
-createDoctor()
+createUser()
 
-
-module.exports = Doctor
+module.exports = User

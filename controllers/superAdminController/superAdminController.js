@@ -1,17 +1,11 @@
 const Doctor = require('../../models/doctor')
+const Receptionist = require('../../models/receptionist')
 const addDoctor = async (req,res) => {
     try {
         const doctorModel = req.body
         console.log(doctorModel)
-        console.log(Doctor)
-        const doctor = await Doctor.create(doctorModel)
-        if(doctor) {
-            return res.send(doctor)
-        }
-        else {
-            return res.send('failed to create doctor record')
-        }
-
+        const doctor = Doctor.create(doctorModel)
+        return res.send(doctor)
     } catch(err) {
         console.log(err)
         return res.send("failed to create doctor record")
@@ -19,6 +13,7 @@ const addDoctor = async (req,res) => {
 }
 
 const editDoctor = (req,res) => {
+
     res.send('edit doctor')
     
 
@@ -29,8 +24,13 @@ const deleteDoctor = (req,res) => {
 
 }
 
-const getDoctors = (req,res) => {
-    res.send('get doctors')
+const getDoctors = async (req,res) => {
+    try {
+        const doctors = await Doctor.findAll()
+        return res.send(doctors)
+    } catch(err) {
+        return res.send(err)
+    }
 
 }
 
@@ -39,9 +39,16 @@ const getDoctor = (req,res) => {
 
 }
 
-const addReceptionist = (req,res) => {
-    res.send('add Receptionist')
-
+const addReceptionist = async (req,res) => {
+    try {
+        const model = req.body
+        const receptionist = Receptionist.create(model)
+        if(receptionist) {
+            return res.send('reception record created')
+        }
+    } catch(err) {
+        res.send('failed to create receptionist')
+    }
 }
 
 const editReceptionist = (req,res) => {
@@ -55,8 +62,14 @@ const deleteReceptionist = (req,res) => {
 
 }
 
-const getReceptionists = (req,res) => {
-    res.send('get Receptionists')
+const getReceptionists = async (req,res) => {
+    try {
+        const receptionists = await Receptionist.findAll()
+        return res.send(receptionists)
+    } catch(err) {
+
+        return res.send('failed to fetch receptionists')
+    }
 
 }
 

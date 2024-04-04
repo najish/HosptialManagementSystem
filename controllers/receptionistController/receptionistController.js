@@ -5,6 +5,10 @@ const dashboard = (req,res) => {
 
 const addPatient = (req,res) => {
 
+    // database store & validate
+
+    
+
     res.send('receptionist : add paitent : post')
 
 }
