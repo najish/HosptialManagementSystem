@@ -8,10 +8,12 @@ const receptionistRouter = require('./routes/receptionistRoute/receptionistRoute
 const doctorRouter = require('./routes/doctorRoute/doctorRoute')
 const superAdminRouter = require('./routes/superAdminRoute/superAdminRoute')
 const authRouter = require('./routes/auth/authRoute')
+const patientRouter = require('./routes/patientRoute/patientRoute')
 const sequelize = require('./config/database')
 const morgan = require('morgan')
-
-
+const cors = require('cors')
+const {query, validator, validatorResult} = require('express-validator')
+app.use(cors())
 app.use(express.json())
 app.use(morgan('combined'))
 
@@ -20,6 +22,7 @@ app.use('/receptionist',receptionistRouter)
 app.use('/doctor',doctorRouter)
 app.use('/super-admin',superAdminRouter)
 app.use('/auth',authRouter)
+app.use('/patient',patientRouter)
 
 
 
