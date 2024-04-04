@@ -1,0 +1,48 @@
+1. Add Patient
+2. Add Patient Formik // remove 
+3. View Patients
+4. View Available Doctors
+5. Add Medicine
+6. View Medicine Data
+7. View Medicine Instruction
+module.exports = {dashboard ,addPatient}
+
+
+==============1. ADD PATIENT ==========
+
+Patient Name
+Age 
+Gender
+Address 
+Location
+Doctor Name (drop down)
+Department
+Rate Plan
+
+
+
+================2. View Patient ===========================
+
+Patient Name, 
+Age 
+Gender
+Address 
+Location
+Doctor Name
+Department
+Rate Plan
+Sponser
+Referred By
+Description
+Contact Number 
+Consultation Fee
+
+Gen QR
+=====================
+
+super admin controller (add receptionist & doctors by default)
+react strap similar to bootstrap
+
+QR CODE GENERATE WITH WHEN BILL IS GENERATED , PRESCRIPTION
+medicine instruction added by receptionist
+JWT : AUTHENTICATION
