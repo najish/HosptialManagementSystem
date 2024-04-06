@@ -1,16 +1,16 @@
 const dashboard = (req,res) => {
     res.send('receptionist : dashboard')
-
 }
 
 const addPatient = (req,res) => {
-
     // database store & validate
-
-    
-
-    res.send('receptionist : add paitent : post')
-
+    console.log(req.body)
 }
 
-module.exports = {dashboard ,addPatient}
+const viewPatient = (req,res) => {
+    // database store & validate
+    res.send('receptionist : view paitent : get')
+}
+
+
+module.exports = {dashboard ,addPatient, viewPatient}

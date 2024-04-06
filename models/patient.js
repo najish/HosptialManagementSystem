@@ -28,7 +28,7 @@ const Patient = sequelize.define('patient', {
         allowNull: false
     },
 
-    doctorname: {
+    doctorId: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -75,7 +75,7 @@ const Patient = sequelize.define('patient', {
 
 
 async function createPatient() {
-    await Patient.sync({alter:true})
+    await Patient.sync()
 }
 
 createPatient()

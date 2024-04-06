@@ -32,7 +32,7 @@ const Receptionist = sequelize.define('receptionist',{
 
 
 async function createReception() {
-    await Receptionist.sync({alter: true})
+    await Receptionist.sync()
 }
 
 createReception()

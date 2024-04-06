@@ -1,10 +1,15 @@
 const User = require('../../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const {validationResult, matchedData} = require('express-validator')
+const { markContent } = require('pdfkit')
 const login = async(req,res) => {
     try {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()) {
+            return res.status(400).send(errors.array())
+        }
         const {email, password} = req.body
-        console.log(req.body)
         const user = await User.findOne({where: {
             email: email
         }})
@@ -24,18 +29,23 @@ const login = async(req,res) => {
         console.log(err)
         return res.send(err)
     }
-    res.statusCode(400).send('login')
 }   
 
 const signup = async (req,res) => {
     try {
-        const model = req.body
+        const errors = validationResult(req)
+        if(!errors.isEmpty()) {
+            return res.status(400).send(errors.array())
+        }
+        console.log(req.body)
+        const model = matchedData(req)
+        console.log(model)
         const salt = bcrypt.genSaltSync(10)
         const hash = bcrypt.hashSync(model.password,salt)
         model.password = hash
-        const user = User.create(model)
+        const user = await User.create(model)
         if(user) {
-            return res.statusCode(200).send(user)
+            return res.status(200).send(user)
         }
     } catch(err) {
         console.log(err)

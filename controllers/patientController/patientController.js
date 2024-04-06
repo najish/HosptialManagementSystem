@@ -1,19 +1,25 @@
 const Patient = require('../../models/patient')
 
 
-
 const addPatient = async (req,res) => {
-
-    console.log(req.body)
-    res.send('add patient')
+    try {
+        console.log(req.body)
+        const patient = Patient.create(req.body)
+        res.send('add patient')
+    } catch(err) {
+        return res.json(err)
+    }
 }
 
-
-
-const viewPatient = (req,res) => {
-    res.send('view patient')
+const viewPatient = async (req,res) => {
+    try {
+        const patients = await Patient.findAll()
+        res.send(patients)
+    } catch(err) {
+        console.log(err)
+        return res.send(err)
+    }
 }
-
 
 
 module.exports = {addPatient, viewPatient}
