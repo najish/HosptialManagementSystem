@@ -1,0 +1,213 @@
+DOCTOR, PATIENT, USER, APPLICATIONUSER, Employee, MEDICINE, APPOINTMENT, A
+
+
+APPLICATIONUSERS, APPOINTMENT, ATTENDEDPATIENT, AUTHORITY,
+DOCTOR, EMPLOYEE, JWTREQUEST, JWTRESPONSE, MEDICINE,
+MEDICINEINSTRUCTION, PATIENTREGISTRATION, PRESCRIBEDDATA,
+RECEPTIONIST, REFERENCEDOCTOR, REFERPATIENT, ROLE, SUPERUSER, USER, USERROLE
+===============================
+
+=========APPLICATIONUSER===========
+
+id : uuid
+employeeName: string
+emloyeeemailid: string
+emprole : string
+contactNumber : string
+username : string
+password: string
+lastLoginTime: string
+
+
+===============APPOINTMENT============
+
+ID: UUID
+APPLIEDDATE: STRING
+PATIENTNAME: STRING
+EMAILID: STRING
+PHONENUMBER: STRING
+APPOINTMENTDATE: STRING
+UNIQUEID: STRING
+DOCTORNAME: STRING
+DESCRIPTION: STRING
+STATUS: STRING
+DOCTORRESPONSE: STRING
+DOCTORTIME: STRING
+
+=============ATTENDEDPATIENT================
+ID: UUID
+ATTENDEDBY: STRING
+PATIENTNAME: STRING
+MRNUMBER: STRING
+TIMEATTENDED: STRING
+REGISTEREDBY: STRING
+DIAGNOSISNOTES: STRING
+PRESCRIPTIONNOTES: STRING
+FILENAME: STRING
+
+
+============AUTHORITY===============
+
+
+
+
+
+===========DOCTOR===========
+id: uuid
+FirstName : string
+LastName : string
+Email : string
+City : string
+About : string
+enabled : true
+profile : string
+username : string
+password : string
+
+
+==========EMPLOYEE=============
+ID: UUID
+EMPLOYEEID: UUID
+EMPLOYEENAME: STRING
+JOININGDATE: DATE
+DATEOFBIRTH: DATE
+DEPARTMENT: STRING
+DESIGNATION: STRING
+NOTIONALITY: STRING
+MOBILENUMBER: STRING
+EMAILID: STRING
+USERNAME: STRING
+
+
+================JWTREQUEST============
+
+USERNAME: STRING
+PASSWORD: STRING
+
+=============JWTRESPONSE============
+
+
+
+==============MEDICINE=============
+ID: UUID
+MEDICINENAME: STRING
+UNIQUEID: STRING (UNIQUE)
+TYPE: STRING
+MANUFACTURERNAME: STRING
+INSERTEDBY: STRING
+INSERTEDDATE: STRING
+UPDATECOUNT: INT
+
+
+
+=============PATIENT==========
+id : uuid
+patientName: string
+billNo: string
+age : int
+gender : string
+billDate: string
+address: string
+mrNumber: string
+location: string
+visitId: string
+doctorName: string
+registeredDate: string
+department; string
+ratePlan: string
+sponser: string
+refferedBy: string
+description: string
+consultingFee: int
+recieptNumber: string
+receptionistName: string
+invoiceName : string
+contactNumber: string
+patientId: string
+
+===========PRESCRIBEDMEDICINE===========
+
+MEDICINENAME: STRING
+DOSAGE: STRING
+FREQ: STRING
+DURATION: STRING
+QTY: STRING
+INSTRUCTIONREFILLS: STRING
+CONTROLTYPE: STRING
+PRIORITY: STRING
+STARTDATE: DATE
+ENDDATE: DATE
+
+=============PRESCRIPTIONDATA==========
+
+
+===============RESCEPTIONIST============
+ID: UUID
+RECEPTIONISTNAME: STRING
+CONTACTNUMBER: STRING
+EMAILID: STRING
+TOTALREGISTEREDPATIENTS: INT
+TOTALREGFEECOLLECTED: LONG
+RECEPTIONLISTID: STRING
+USERNAME: STRING
+PASSWORD: STRING
+RECEPTIONISTIMAGE: STRING (PATH TO THE IMAGE)
+LASTLOGGGEDIN: STRING
+LOGINSTATUS: STRING
+
+============REFERENCEDOCTOR================
+ID: UUID
+DOCTORNAME: STRING
+SPECIALITY: STRING
+HOSPITALNAME: STRING
+ADDRESS: STRING
+CONTACTNUMBER: STRING
+EMAILID: STRING
+CONTACTOF: STRING
+REGISTEREDDATE: STRING
+
+
+================REFERPATIENT============
+ID: UUID (INT)
+REFEREDDATE: STRING
+REFERTO: STRING
+REFERENCEDOCTOR: STRING
+PATIENTNAME: STRING
+
+
+============ROLE==============
+ROLEID: UUID
+ROLENAME: STRING
+
+=============SUPERUSER============
+SUPERUSERID: UUID(INT)
+NAME: STRING
+USERNAME: STRING
+PASSWORD: STRING
+LASTLOGINTIME: STRING
+
+
+
+=============USER=============
+id: uuid
+firstName: string
+lastName: string
+contactNumber: string
+email: string
+city: string
+about: string
+enabled: true
+profile: string
+username: string
+password: string
+
+
+
+===========USERROLE=======
+ID: UUID (LONG)
+USERROLEID: UUID(LONG)
+
+
+
+
+
