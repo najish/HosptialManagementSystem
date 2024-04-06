@@ -12,5 +12,8 @@ const viewPatient = (req,res) => {
     res.send('receptionist : view paitent : get')
 }
 
+const viewAvailableDoctors = (req,res) => {
+    res.send('view available doctors: receptionist')
+}
 
-module.exports = {dashboard ,addPatient, viewPatient}
+module.exports = {dashboard ,addPatient, viewPatient, viewAvailableDoctors}
