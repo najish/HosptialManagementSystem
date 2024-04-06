@@ -29,7 +29,7 @@ const Patient = sequelize.define('patient', {
     },
 
     doctorId: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: false
     },
 

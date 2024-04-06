@@ -1,26 +1,89 @@
 const Doctor = require('../../models/doctor')
 const Receptionist = require('../../models/receptionist')
+const {validationResult} = require('express-validator')
+
+
+
+// doctor handlers
 const addDoctor = async (req,res) => {
     try {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()) {
+
+            return res.status(400).send(errors.array())
+        }
         const doctorModel = req.body
         console.log(doctorModel)
-        const doctor = Doctor.create(doctorModel)
-        return res.send(doctor)
+        const doctor = await Doctor.create(doctorModel)
+
+        if(doctor) {
+            return res.send(doctor)
+        }
+        else {
+            throw new Error('failed to created doctor record')
+        }
     } catch(err) {
-        console.log(err)
         return res.send("failed to create doctor record")
     }
 }
 
-const editDoctor = (req,res) => {
+const editDoctor = async (req,res) => {
+    try {
+        const errors = validationResult(req)
 
-    res.send('edit doctor')
-    
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
 
+        const doctor = await Doctor.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(!doctor) {
+            return res.send('doctor not found')
+        }
+
+        const model = req.body
+        
+
+        doctor.name = model.name
+        doctor.specialization = model.specialization
+        doctor.experience = model.experience
+        doctor.licenseNumber = model.licenseNumber
+
+        await doctor.save()
+
+        res.send(doctor)
+    } catch(err) {
+        return res.send(err)
+    }
 }
 
-const deleteDoctor = (req,res) => {
-    res.send('delete doctor')
+const deleteDoctor = async (req,res) => {
+    try {
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
+
+        const doctor = await Doctor.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(!doctor) {
+            return res.send('doctor not found')
+        }
+
+        await doctor.destroy()
+        res.send('deleted doctor')
+    } catch(err) {
+        return res.send(err)
+    }
 
 }
 
@@ -34,36 +97,113 @@ const getDoctors = async (req,res) => {
 
 }
 
-const getDoctor = (req,res) => {
-    res.send('get doctor with id')
+const getDoctor = async (req,res) => {
+    try {
 
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
+
+        const doctor = await Doctor.findOne({
+            where: {
+                id: req.params.id
+            }
+        }) 
+
+        if(!doctor) {
+            return res.send('doctor is not found')
+        }
+
+        return res.send(doctor)
+    } catch(err) {
+        return res.send('error');  
+    }
 }
+
+
+// Receptionist handlers
 
 const addReceptionist = async (req,res) => {
     try {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
         const model = req.body
-        const receptionist = Receptionist.create(model)
+        const receptionist = await Receptionist.create(model)
         if(receptionist) {
-            return res.send('reception record created')
+            return res.send(receptionist)
         }
     } catch(err) {
         res.send('failed to create receptionist')
     }
 }
 
-const editReceptionist = (req,res) => {
-    res.send('edit Receptionist')
-    
+const editReceptionist = async (req,res) => {
+    try {
+        const errors = validationResult(req)
+        
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
+        
+        const receptionist = await Receptionist.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        
+        if(!receptionist)
+        return res.send('nothing happens')
+        
+        const model = req.body
+        receptionist.name = model.name
+        receptionist.phone = model.phone
+        receptionist.address = model.address
 
+        await receptionist.save()
+        return res.status(200).send(receptionist)
+
+    } catch(err) {
+        return res.send(err)
+    }
 }
 
-const deleteReceptionist = (req,res) => {
-    res.send('delete Receptionist')
+const deleteReceptionist = async (req,res) => {
+    try {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
+
+        const id = req.params.id
+        const receptionist = await Receptionist.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(!receptionist) {
+            return res.status(400).send('receptionist not found')
+        }
+        await receptionist.destroy()
+        
+        return res.send('deleted Receptionist')
+    } catch(err) {
+        return res.send(err)
+    }
 
 }
 
 const getReceptionists = async (req,res) => {
     try {
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
         const receptionists = await Receptionist.findAll()
         return res.send(receptionists)
     } catch(err) {
@@ -73,9 +213,28 @@ const getReceptionists = async (req,res) => {
 
 }
 
-const getReceptionist = (req,res) => {
-    res.send('get Receptionist')
+const getReceptionist = async (req,res) => {
+    try {
+        const errors = validationResult(req)
 
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
+        
+        const receptionist = await Receptionist.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        
+        if(!receptionist)
+            return res.send('get Receptionist: failed')
+    
+        return res.send(receptionist)
+    
+    } catch(err) {
+        return res.send(err)
+    }
 }
 
 

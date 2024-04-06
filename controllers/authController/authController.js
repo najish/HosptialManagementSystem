@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {validationResult, matchedData} = require('express-validator')
 const { markContent } = require('pdfkit')
+
 const login = async(req,res) => {
     try {
         const errors = validationResult(req)

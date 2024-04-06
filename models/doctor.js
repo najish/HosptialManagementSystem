@@ -25,7 +25,8 @@ const Doctor = sequelize.define('Doctor',{
 
     licenseNumber: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 },{
     freezeTableName: true,
@@ -33,7 +34,7 @@ const Doctor = sequelize.define('Doctor',{
 })
 
 async function createDoctor () {
-    await Doctor.sync({alter: true})
+    await Doctor.sync()
 }
 
 createDoctor()

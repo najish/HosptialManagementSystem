@@ -32,7 +32,7 @@ const User = sequelize.define('user',{
 
 
 async function createUser() {
-    await User.sync({alter: true})
+    await User.sync()
 }
 
 createUser()
