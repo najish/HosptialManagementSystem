@@ -9,22 +9,64 @@ const Receptionist = sequelize.define('receptionist',{
         defaultValue: DataTypes.UUIDV4
     },
 
-    name: {
+    receptionistName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
 
-    phone: {
+    contactNumber: {
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    address: {
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    totalRegisteredPatients: {
+        type: DataTypes.INTEGER,
+        allowNull:false
+    },
+
+
+    totalRegFeeCollected: {
+        type: DataTypes.INTEGER,
+        allowNull:false
+    },
+    
+
+    receptionistListId: {
+        type: DataTypes.STRING,
+        allowNull:false
+    },
+    
+    username: {
+        type: DataTypes.STRING,
+        allowNull:false
+    },
+    
+    password: {
+        type: DataTypes.STRING,
+        allowNull:false
+    },
+    
+
+    receptionistImage: {
+        type: DataTypes.STRING,
+        allowNull:false
+    },
+
+    lastLoggedIn: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    loginStatus: {
         type: DataTypes.STRING,
         allowNull: false
     }
-
-
+    
 },{
     freezeTableName: true,
     timestamps: false

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multer Uploads</title>
+</head>
+<body>
+    <form method="post" action="http://localhost:3000/super-admin/add-receptionist" enctype="multipart/form-data">
+        <div>
+            <label for="receptionistName">ReceptionistName</label>
+            <input id="receptionistName" name="receptionistName" placeholder="enter receptionistName.." />
+        </div>
+        <div>
+            <label for="contactNumber">ContactNumber</label>
+            <input type="contactNumber" id="contactNumber" name="contactNumber" placeholder="enter password.." />
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" />
+        </div>
+        <div>
+            <label for="totalRegisteredPatients">TotalRegisteredPatients</label>
+            <input id="totalRegisteredPatients" type="totalRegisteredPatients" name="totalRegisteredPatients" />
+        </div>
+        <div>
+            <label for="totalRegFeeCollected">TotalRegFeeCollected</label>
+            <input id="totalRegFeeCollected" type="totalRegFeeCollected" name="totalRegFeeCollected" />
+        </div>
+        <div>
+            <label for="receptionistListId">ReceptionistListId</label>
+            <input id="receptionistListId" type="receptionistListId" name="receptionistListId" />
+        </div>
+        <div>
+            <label for="username">Username</label>
+            <input id="username" type="username" name="username" />
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" />
+        </div>
+
+        <div>
+            <label for="receptionistImage">receptionistImage</label>
+            <input id="receptionistImage" type="file" name="receptionistImage" />
+        </div>
+
+        <div>
+            <label for="lastLoggedIn">LastLoggedIn</label>
+            <input type="text" id="lastLoggedIn" name="lastLoggedIn" placeholder="enter LastLoggedIn.." />
+        </div>
+        <div>
+            <label for="loginStatus">loginStatus</label>
+            <input type="text" id="loginStatus" name="loginStatus" placeholder="enter loginStatus.." />
+        </div>
+
+        <div>
+            <input type="submit" value="Add Receptionist" />
+        </div>
+    </form>
+</body>
+</html>

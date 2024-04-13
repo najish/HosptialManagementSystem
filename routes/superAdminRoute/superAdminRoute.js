@@ -1,5 +1,8 @@
 const router = require('express').Router()
 
+const multerConfig = require('../../config/multerConfig')
+const upload = multerConfig()
+
 // receptionist required
 const addReceptionistValidation = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/addReceptionistValidation')
 const editReceptionistValidation = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/editReceptionistValidation')
@@ -16,11 +19,12 @@ const {addDoctor, editDoctor, deleteDoctor,
     getDoctors, getDoctor, addReceptionist, 
     editReceptionist, deleteReceptionist, getReceptionist, 
     getReceptionists} = require('../../controllers/superAdminController/superAdminController')
+const multer = require('multer')
     
 
 // list of receptionist routes
 
-router.post('/add-receptionist',addReceptionistValidation,addReceptionist)
+router.post('/add-receptionist',upload.single('receptionistImage'),addReceptionist)
 router.put('/edit-receptionist/:id',editReceptionistValidation,editReceptionist)
 router.delete('/delete-receptionist/:id',deleteReceptionistValidation,deleteReceptionist)
 router.get('/receptionist',getReceptionists)

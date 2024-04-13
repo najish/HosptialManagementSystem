@@ -1,8 +1,8 @@
 const Doctor = require('../../models/doctor')
 const Receptionist = require('../../models/receptionist')
 const {validationResult} = require('express-validator')
-
-
+const fs = require('fs')
+const path = require('path')
 
 // doctor handlers
 const addDoctor = async (req,res) => {
@@ -116,6 +116,10 @@ const getDoctor = async (req,res) => {
             return res.send('doctor is not found')
         }
 
+
+        console.log(imagePath)
+
+
         return res.send(doctor)
     } catch(err) {
         return res.send('error');  
@@ -127,17 +131,27 @@ const getDoctor = async (req,res) => {
 
 const addReceptionist = async (req,res) => {
     try {
-        const errors = validationResult(req)
-        if(!errors.isEmpty()) {
-            return res.send(errors.array())
+        // const errors = validationResult(req)
+        // if(!errors.isEmpty()) {
+        //     return res.send(errors.array())
+        // }
+
+
+        const {body, file} = req
+
+        const model = {
+            ...req.body,
+            receptionistImage: file.path
         }
-        const model = req.body
+
+        console.log(model)
         const receptionist = await Receptionist.create(model)
         if(receptionist) {
             return res.send(receptionist)
         }
+
     } catch(err) {
-        res.send('failed to create receptionist')
+        return res.send(err)
     }
 }
 
@@ -229,7 +243,15 @@ const getReceptionist = async (req,res) => {
         
         if(!receptionist)
             return res.send('get Receptionist: failed')
-    
+        
+        const receptionistImage = receptionist.receptionistImage
+        const imagePath = path.join(__dirname, receptionistImage)
+        console.log(receptionistImage)
+        console.log(imagePath)    
+        await fs.access(imagePath, fs.constants.F_OK) 
+        
+        const imageStream = fs.createReadStream(imagePath)
+        receptionist.receptionistImage = imageStream
         return res.send(receptionist)
     
     } catch(err) {

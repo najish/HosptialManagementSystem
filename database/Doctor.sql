@@ -25,6 +25,7 @@ create table if not exists Doctor(
     licenseNumber varchar(255) not null
 );
 
+
 insert into Doctor values
 ('4462a006-99e5-4db9-b663-de6439442dc1','Javed Alam','cardiology',15,'LIS101'),
 ('519f5fac-2d99-436a-8c61-080023a41378','Gyan Prakash','dermatology',15,'LIS102'),
