@@ -1,9 +1,9 @@
 const router = require('express').Router()
 
-const multerConfig = require('../../config/multerConfig')
+const recpetionistMulter = require('../../utils/receptionistMulter/receptionistMulter')
 const doctorMulterConfig = require('../../utils/doctorMulter/doctorMulter')
 
-const upload = multerConfig()
+const upload = recpetionistMulter()
 const uploadDoctor = doctorMulterConfig()
 
 
