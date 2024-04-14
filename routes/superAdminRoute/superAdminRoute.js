@@ -26,7 +26,7 @@ router.get('/receptionist',getReceptionists)
 router.get('/receptionist/:id',getReceptionistValidation,getReceptionist)
 
 
-// list of doctors routes
+// list of doctors routesreceptionistImage
 
 router.post('/add-doctor',addDoctorValidation,addDoctor)
 router.put('/edit-doctor/:id',editDoctorValidation,editDoctor)
