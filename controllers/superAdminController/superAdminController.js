@@ -207,10 +207,9 @@ const editReceptionist = async (req,res) => {
         receptionist.receptionistImage = file.path
         receptionist.lastLoggedIn = model.lastLoggedIn
         receptionist.loginStatus = model.loginStatus
-        receptionist.save().then(() => {
-            return res.status(201).send(receptionist)
-        }).catch(err => res.send(err))
-
+        
+        await receptionist.save()
+        return res.send(receptionist)
     } catch(err) {
         return res.send(err)
     }
