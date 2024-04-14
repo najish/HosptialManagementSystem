@@ -217,17 +217,14 @@ const deleteReceptionist = async (req,res) => {
         }
 
         const id = req.params.id
-        const receptionist = await Receptionist.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
+
+        const receptionist = await Receptionist.findByPk(id)
+
 
         if(!receptionist) {
             return res.status(400).send('receptionist not found')
         }
         await receptionist.destroy()
-        
         return res.send('deleted Receptionist')
     } catch(err) {
         return res.send(err)
@@ -254,18 +251,11 @@ const getReceptionist = async (req,res) => {
             return res.send(errors.array())
         }
         
-        const receptionist = await Receptionist.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
+        const receptionist = await Receptionist.findByPk(req.params.id)
         
         if(!receptionist)
-            return res.send('get Receptionist: failed')
+            return res.send('receptionist not found')
 
-        receptionistImagePath = receptionist.receptionistImage
-        fs.readFileSync(receptionistImagePath,{encoding: 'utf-8'})
-        
         return res.send(receptionist)
     
     } catch(err) {

@@ -16,7 +16,7 @@ const addReceptionistValidation = [
 
 
 const deleteReceptionistValidation = [
-    param('id').trim().notEmpty().withMessage('id cannot be empty').isUUID().withMessage('uuid is required to fetch the receptionist details')
+    param('id').trim().notEmpty().withMessage('id cannot be empty').isUUID().withMessage('id is not valid')
 ]
 
 
