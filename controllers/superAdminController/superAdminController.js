@@ -172,21 +172,24 @@ function updateReceptionistData(data, model) {
 const editReceptionist = async (req,res) => {
     try {
         const errors = validationResult(req)
-        
+        const model = req.body
         if(!errors.isEmpty()) {
             return res.send(errors.array())
         }
         
-        const receptionist = await Receptionist.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
+        // const receptionist = await Receptionist.findOne({
+        //     where: {
+        //         id: req.params.id
+        //     }
+        // })
+        const receptionist = await Receptionist.findByPk(req.params.id)
+
         
         if(!receptionist)
             return res.send('receptionist not found')
         
         const unlinkPath = receptionist.receptionistImage
+        
         fs.unlink(unlinkPath,err => {
             if(err) console.log(err)
             else console.log('file deleted')
