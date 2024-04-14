@@ -19,8 +19,8 @@ const {addDoctor, editDoctor, deleteDoctor,
 
 // list of receptionist routes
 
-router.post('/add-receptionist',upload.single('receptionistImage'),addReceptionist)
-router.put('/edit-receptionist/:id',editReceptionistValidation,editReceptionist)
+router.post('/add-receptionist',upload.single('receptionistImage'),addReceptionistValidation,addReceptionist)
+router.put('/edit-receptionist/:id',upload.single('receptionistImage'),editReceptionistValidation,editReceptionist)
 router.delete('/delete-receptionist/:id',deleteReceptionistValidation,deleteReceptionist)
 router.get('/receptionist',getReceptionists)
 router.get('/receptionist/:id',getReceptionistValidation,getReceptionist)

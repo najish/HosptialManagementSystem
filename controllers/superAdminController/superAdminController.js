@@ -131,10 +131,10 @@ const getDoctor = async (req,res) => {
 
 const addReceptionist = async (req,res) => {
     try {
-        // const errors = validationResult(req)
-        // if(!errors.isEmpty()) {
-        //     return res.send(errors.array())
-        // }
+        const errors = validationResult(req)
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
 
 
         const {body, file} = req
@@ -155,6 +155,20 @@ const addReceptionist = async (req,res) => {
     }
 }
 
+function updateReceptionistData(data, model) {
+    data.receptionistName = model.receptionistName
+    data.contactNumber = model.contactNumber
+    data.email = model.email
+    data.totalRegisteredPatients = model.totalRegisteredPatients
+    data.totalRegFeeCollected = model.totalRegFeeCollected
+    data.receptionistListId = model.receptionistListId
+    data.username = model.username
+    data.password = model.password
+    data.receptionistImage = model.receptionistImage
+    data.lastLoggedIn = model.lastLoggedIn
+    data.loginStatus = model.loginStatus
+    return data
+}
 const editReceptionist = async (req,res) => {
     try {
         const errors = validationResult(req)
@@ -170,13 +184,12 @@ const editReceptionist = async (req,res) => {
         })
         
         if(!receptionist)
-        return res.send('nothing happens')
+            return res.send('receptionist not found')
         
         const model = req.body
-        receptionist.name = model.name
-        receptionist.phone = model.phone
-        receptionist.address = model.address
-
+        console.log(receptionist)
+        receptionist = updateReceptionistData(receptionist,model)
+        console.log(receptionist)
         await receptionist.save()
         return res.status(200).send(receptionist)
 
@@ -213,11 +226,6 @@ const deleteReceptionist = async (req,res) => {
 
 const getReceptionists = async (req,res) => {
     try {
-        const errors = validationResult(req)
-
-        if(!errors.isEmpty()) {
-            return res.send(errors.array())
-        }
         const receptionists = await Receptionist.findAll()
         return res.send(receptionists)
     } catch(err) {
@@ -243,6 +251,9 @@ const getReceptionist = async (req,res) => {
         
         if(!receptionist)
             return res.send('get Receptionist: failed')
+
+        receptionistImagePath = receptionist.receptionistImage
+        fs.readFileSync(receptionistImagePath,{encoding: 'utf-8'})
         
         return res.send(receptionist)
     
@@ -250,6 +261,8 @@ const getReceptionist = async (req,res) => {
         return res.send(err)
     }
 }
+
+
 
 
 module.exports = {addDoctor, editDoctor, deleteDoctor, getDoctors, getDoctor, addReceptionist, editReceptionist, deleteReceptionist, getReceptionist, getReceptionists}
