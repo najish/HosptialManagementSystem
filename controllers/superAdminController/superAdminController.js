@@ -131,13 +131,16 @@ const getDoctor = async (req,res) => {
 
 const addReceptionist = async (req,res) => {
     try {
+        const {body, file} = req
+
         const errors = validationResult(req)
         if(!errors.isEmpty()) {
+            fs.unlink(file.path, err=> {
+                if(err) throw new Error('failed to unlink the new file')
+                else console.log('failed to uplaod the file becous of validation error')
+            })
             return res.send(errors.array())
         }
-
-
-        const {body, file} = req
 
         const model = {
             ...req.body,
@@ -146,53 +149,44 @@ const addReceptionist = async (req,res) => {
 
         console.log(model)
         const receptionist = await Receptionist.create(model)
-        if(receptionist) {
-            return res.send(receptionist)
-        }
+        return res.send(receptionist)
 
     } catch(err) {
         return res.send(err)
     }
 }
 
-function updateReceptionistData(data, model) {
-    data.receptionistName = model.receptionistName
-    data.contactNumber = model.contactNumber
-    data.email = model.email
-    data.totalRegisteredPatients = model.totalRegisteredPatients
-    data.totalRegFeeCollected = model.totalRegFeeCollected
-    data.receptionistListId = model.receptionistListId
-    data.username = model.username
-    data.password = model.password
-    data.receptionistImage = model.receptionistImage
-    data.lastLoggedIn = model.lastLoggedIn
-    data.loginStatus = model.loginStatus
-    return data
-}
+
 const editReceptionist = async (req,res) => {
     try {
         const errors = validationResult(req)
+        const {body, file} = req
         const model = req.body
         if(!errors.isEmpty()) {
+            fs.unlink(file.path, err=> {
+                if(err) throw new Error('failed to delete the newly added image file',err)
+                else console.log('deleted the receptionist image becouse of validation error')
+            })
             return res.send(errors.array())
         }
+
         
-        // const receptionist = await Receptionist.findOne({
-        //     where: {
-        //         id: req.params.id
-        //     }
-        // })
         const receptionist = await Receptionist.findByPk(req.params.id)
 
         
-        if(!receptionist)
+        if(!receptionist) { 
+            fs.unlink(file.path, err => {
+                if(err) throw new Error('user not found')
+                else console.log('user not found so deleted the newly added image')
+            })
             return res.send('receptionist not found')
+        }
+
+        console.log(receptionist.dataValues)
         
-        const unlinkPath = receptionist.receptionistImage
-        
-        fs.unlink(unlinkPath,err => {
-            if(err) console.log(err)
-            else console.log('file deleted')
+        fs.unlink(receptionist.receptionistImage,err => {
+            if(err) throw new Error(err)
+            else console.log('exisiting file deleted')
         })
         
 

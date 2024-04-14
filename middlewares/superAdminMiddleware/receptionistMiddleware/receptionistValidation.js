@@ -21,7 +21,7 @@ const deleteReceptionistValidation = [
 
 
 const editReceptionistValidation = [
-    param('id').trim().notEmpty().withMessage('uuid cannot be empty').isUUID().withMessage('uuid is not given'),
+    param('id').trim().notEmpty().withMessage('uuid cannot be empty').isUUID().withMessage('id is not valid'),
     body('receptionistName').trim().notEmpty().withMessage('receptionistName cant be empty'),
     body('contactNumber').trim().notEmpty().withMessage('contactNumber number cant be empty'),
     body('email').trim().notEmpty().withMessage('email cant be empty'),
