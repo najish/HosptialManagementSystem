@@ -186,10 +186,24 @@ const editReceptionist = async (req,res) => {
         if(!receptionist)
             return res.send('receptionist not found')
         
-        const model = req.body
-        console.log(receptionist)
-        receptionist = updateReceptionistData(receptionist,model)
-        console.log(receptionist)
+        const unlinkPath = receptionist.receptionistImage
+        fs.unlink(unlinkPath,err => {
+            if(err) console.log(err)
+            else console.log('file deleted')
+        })
+        
+
+        receptionist.receptionistName = model.receptionistName
+        receptionist.contactNumber = model.contactNumber
+        receptionist.email = model.email
+        receptionist.totalRegisteredPatients = model.totalRegisteredPatients
+        receptionist.totalRegFeeCollected = model.totalRegFeeCollected
+        receptionist.receptionistListId = model.receptionistListId
+        receptionist.username = model.username
+        receptionist.password = model.password
+        receptionist.receptionistImage = file.path
+        receptionist.lastLoggedIn = model.lastLoggedIn
+        receptionist.loginStatus = model.loginStatus
         await receptionist.save()
         return res.status(200).send(receptionist)
 
