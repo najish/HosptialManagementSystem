@@ -15,7 +15,6 @@ const {addDoctor, editDoctor, deleteDoctor,
     getDoctors, getDoctor, addReceptionist, 
     editReceptionist, deleteReceptionist, getReceptionist, 
     getReceptionists} = require('../../controllers/superAdminController/superAdminController')
-const multer = require('multer')
     
 
 // list of receptionist routes
