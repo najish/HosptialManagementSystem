@@ -4,16 +4,12 @@ const multerConfig = require('../../config/multerConfig')
 const upload = multerConfig()
 
 // receptionist required
-const addReceptionistValidation = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/addReceptionistValidation')
-const editReceptionistValidation = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/editReceptionistValidation')
-const getReceptionistValidation = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/getReceptionistValidation')
-const deleteReceptionistValidation = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/deleteReceptionistValidation')
+
+const {addReceptionistValidation, deleteReceptionistValidation, editReceptionistValidation, getReceptionistValidation} = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/receptionistValidation')
+
 // doctor required
 
-const addDoctorValidation = require('../../middlewares/superAdminMiddleware/doctorMiddleware/addDoctorValidation')
-const getDoctorValidation = require('../../middlewares/superAdminMiddleware/doctorMiddleware/getDoctorValidation')
-const editDoctorValidation = require('../../middlewares/superAdminMiddleware/doctorMiddleware/editDoctorValidation')
-const deleteDoctorValidation = require('../../middlewares/superAdminMiddleware/doctorMiddleware/deleteDoctorValidation')
+const {addDoctorValidation, editDoctorValidation, deleteDoctorValidation, getDoctorValidation} = require('../../middlewares/superAdminMiddleware/doctorMiddleware/doctorValidation')
 
 const {addDoctor, editDoctor, deleteDoctor, 
     getDoctors, getDoctor, addReceptionist, 

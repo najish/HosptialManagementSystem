@@ -1,4 +1,5 @@
-const {body, validationResult} = require('express-validator')
+const {body, param, validationResult} = require('express-validator')
+
 
 const addReceptionistValidation = [
     // body('receptionistName').trim().notEmpty().withMessage('receptionistName cant be empty'),
@@ -13,25 +14,22 @@ const addReceptionistValidation = [
 ]
 
 
-/*
+const deleteReceptionistValidation = [
+    param('id').trim().notEmpty().withMessage('id cannot be empty').isUUID().withMessage('uuid is required to fetch the receptionist details')
+]
 
 
-    {
-        "id": "07eb90d3-3b2e-4038-af40-cfd3e4ade419",
-        "receptionistName": "Receptionist Name1",
-        "username": "9993846107",
-        "email": "receptionist1@gmail.com",
-        "totalRegisteredPatients": 23,
-        "totalRegFeeCollected": 5000,
-        "receptionistListId": "receptionistlistid1",
-        "username": "reusername",
-        "password": "password@123",
-        "receptionistImage": "image",
-        "lastLoggedIn": "lastloggedin"
-    }
+const editReceptionistValidation = [
+    body('name').trim().notEmpty().withMessage('name cant be empty'),
+    body('phone').trim().notEmpty().withMessage('phone number cant be empty'),
+    body('address').trim().notEmpty().withMessage('address cant be empty'),
+    param('id').trim().notEmpty().withMessage('params cant be empty')
+]
 
 
+const getReceptionistValidation = [
+    param('id').trim().notEmpty().withMessage('id cannot be empty').isUUID().withMessage('please provide the uuid')
+]
 
-*/
 
-module.exports = addReceptionistValidation
+module.exports = {addReceptionistValidation, editReceptionistValidation, deleteReceptionistValidation, getReceptionistValidation}

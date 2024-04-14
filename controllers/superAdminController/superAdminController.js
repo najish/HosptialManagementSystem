@@ -244,14 +244,6 @@ const getReceptionist = async (req,res) => {
         if(!receptionist)
             return res.send('get Receptionist: failed')
         
-        const receptionistImage = receptionist.receptionistImage
-        const imagePath = path.join(__dirname, receptionistImage)
-        console.log(receptionistImage)
-        console.log(imagePath)    
-        await fs.access(imagePath, fs.constants.F_OK) 
-        
-        const imageStream = fs.createReadStream(imagePath)
-        receptionist.receptionistImage = imageStream
         return res.send(receptionist)
     
     } catch(err) {
