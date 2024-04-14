@@ -8,26 +8,51 @@ const Doctor = sequelize.define('Doctor',{
         defaultValue: DataTypes.UUIDV4
     },
     
-    name: {
+    firstName: {
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    specialization: {
+    lastName: {
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    experience: {
+    email: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
 
-    licenseNumber: {
+    city: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
+    },
+
+    about: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    enabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+
+    profile: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
+
 },{
     freezeTableName: true,
     timestamps: false

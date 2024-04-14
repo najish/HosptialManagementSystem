@@ -1,10 +1,14 @@
 const {body, param, validationResult} = require('express-validator')
 
 const addDoctorValidation = [
-    body('name').trim().notEmpty().withMessage('name cant be empty'),
-    body('specialization').trim().notEmpty().withMessage('specialization cant be empty'),
-    body('experience').trim().notEmpty().withMessage('experience cant be empty'),
-    body('licenseNumber').notEmpty().withMessage('license error with nazish')
+    body('firstName').trim().notEmpty().withMessage('firstname cant be empty'),
+    body('lastName').trim().notEmpty().withMessage('lastname cant be empty'),
+    body('email').trim().notEmpty().withMessage('email cant be empty'),
+    body('city').notEmpty().withMessage('city cannot be empty'),
+    body('about').trim().notEmpty().withMessage('about cant be empty'),
+    body('enabled').trim().notEmpty().withMessage('enabled cant be empty & it\'s boolean'),
+    body('username').notEmpty().withMessage('username cannot be empty'),
+    body('password').notEmpty().withMessage('password cannot be empty')
 ]
 
 
@@ -14,15 +18,19 @@ const deleteDoctorValidation = [
 
 const editDoctorValidation = [
     param('id').trim().notEmpty().withMessage('id cannot be empty').isUUID().withMessage('please provide uuid for the application'),
-    body('name').trim().notEmpty().withMessage('name cannot be empty'),
-    body('specialization').trim().notEmpty().withMessage('specilization cannot be empty'),
-    body('experience').trim().notEmpty().withMessage('experience not cannot be empty'),
-    body('licenseNumber').trim().notEmpty().withMessage('license number cannot be empty')
+    body('firstName').trim().notEmpty().withMessage('firstname cant be empty'),
+    body('lastName').trim().notEmpty().withMessage('lastname cant be empty'),
+    body('email').trim().notEmpty().withMessage('email cant be empty'),
+    body('city').notEmpty().withMessage('city cannot be empty'),
+    body('about').trim().notEmpty().withMessage('about cant be empty'),
+    body('enabled').trim().notEmpty().withMessage('enabled cant be empty & it\'s boolean'),
+    body('username').notEmpty().withMessage('username cannot be empty'),
+    body('password').notEmpty().withMessage('password cannot be empty')
 ]
 
 
 const getDoctorValidation = [
-
+    param('id').trim().notEmpty().withMessage('id cannot be empty').isUUID().withMessage('id is not valid')
 ]
 
 

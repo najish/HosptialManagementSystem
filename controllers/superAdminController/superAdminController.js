@@ -7,21 +7,24 @@ const path = require('path')
 // doctor handlers
 const addDoctor = async (req,res) => {
     try {
+        const {body, file} = req
         const errors = validationResult(req)
         if(!errors.isEmpty()) {
-
+            fs.unlink(file.path, err => {
+                if(err) throw new Error('failed to delete the newly added file')
+                else console.log('deleted newly added doctor image')
+            })
             return res.status(400).send(errors.array())
         }
-        const doctorModel = req.body
+
+        const doctorModel = {
+            ...body,
+        }
+        doctorModel.profile = file.path
+
         console.log(doctorModel)
         const doctor = await Doctor.create(doctorModel)
-
-        if(doctor) {
-            return res.send(doctor)
-        }
-        else {
-            throw new Error('failed to created doctor record')
-        }
+        return res.send(doctor)
     } catch(err) {
         return res.send("failed to create doctor record")
     }
@@ -30,31 +33,43 @@ const addDoctor = async (req,res) => {
 const editDoctor = async (req,res) => {
     try {
         const errors = validationResult(req)
+        const {body, file} = req
+        const model = req.body
 
         if(!errors.isEmpty()) {
+            fs.unlink(file.path, err => {
+                if(err) throw new Error('failed to delete newly added doctor image',err)
+                else console.log('deleted update doctor image becouse of validation error')
+            })
             return res.send(errors.array())
         }
 
-        const doctor = await Doctor.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
+        const doctor = await Doctor.findByPk(req.params.id)
 
         if(!doctor) {
+            fs.unlink(file.path, err => {
+                if(err) throw new Error('doctor not found to update the details', err)
+                else console.log('doctor not found to update the image, so delete the image')
+            })
             return res.send('doctor not found')
         }
 
-        const model = req.body
-        
+        fs.unlink(doctor.profile, err => {
+            if(err) throw new Error('failed to delete the existing doctor image')
+            else console.log('deleted the previous image of the doctor')
+        })
 
-        doctor.name = model.name
-        doctor.specialization = model.specialization
-        doctor.experience = model.experience
-        doctor.licenseNumber = model.licenseNumber
+        doctor.firstName = model.firstName
+        doctor.lastName = model.lastName
+        doctor.email = model.email
+        doctor.city = model.city
+        doctor.about = model.about
+        doctor.enabled = model.enabled
+        doctor.profile = file.path
+        doctor.username = model.username
+        doctor.password = model.password
 
         await doctor.save()
-
         res.send(doctor)
     } catch(err) {
         return res.send(err)
@@ -69,16 +84,12 @@ const deleteDoctor = async (req,res) => {
             return res.send(errors.array())
         }
 
-        const doctor = await Doctor.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
+        const doctor = await Doctor.findByPk(req.params.id)
+        
 
         if(!doctor) {
             return res.send('doctor not found')
         }
-
         await doctor.destroy()
         res.send('deleted doctor')
     } catch(err) {
@@ -94,7 +105,6 @@ const getDoctors = async (req,res) => {
     } catch(err) {
         return res.send(err)
     }
-
 }
 
 const getDoctor = async (req,res) => {
@@ -106,20 +116,11 @@ const getDoctor = async (req,res) => {
             return res.send(errors.array())
         }
 
-        const doctor = await Doctor.findOne({
-            where: {
-                id: req.params.id
-            }
-        }) 
+        const doctor = await Doctor.findByPk(req.params.id)
 
         if(!doctor) {
             return res.send('doctor is not found')
         }
-
-
-        console.log(imagePath)
-
-
         return res.send(doctor)
     } catch(err) {
         return res.send('error');  
