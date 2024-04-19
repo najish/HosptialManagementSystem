@@ -4,6 +4,7 @@ const {validationResult} = require('express-validator')
 const fs = require('fs')
 const path = require('path')
 const bcrypt = require('bcrypt')
+const { error } = require('console')
 
 // doctor handlers
 
@@ -61,6 +62,7 @@ const addDoctor = async (req,res) => {
         console.log(doctorModel)
         const doctor = await Doctor.create(doctorModel)
         return res.send(doctor)
+        
     } catch(err) {
         return res.send("failed to create doctor record")
     }
@@ -201,11 +203,11 @@ const loginReceptionist = async (req,res) => {
 }
 
 const addReceptionist = async (req,res) => {
+
     try {
         const {body, file} = req
-        console.log(body)
-        console.log(file)
         const errors = validationResult(req)
+        
         if(!errors.isEmpty()) {
             fs.unlink(file.path, err=> {
                 if(err) throw new Error('failed to unlink the new file')
@@ -226,10 +228,12 @@ const addReceptionist = async (req,res) => {
         return res.send(receptionist)
 
     } catch(err) {
-        console.log('failed')
+        console.log('failed : add receptionist')
         return res.send(err)
     }
+
 }
+
 
 
 const editReceptionist = async (req,res) => {
