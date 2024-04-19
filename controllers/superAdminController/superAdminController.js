@@ -229,7 +229,10 @@ const addReceptionist = async (req,res) => {
 
     } catch(err) {
         console.log('failed : add receptionist')
-        return res.send(err)
+        return res.json({
+            message:"error",
+            error: err
+        })
     }
 
 }
