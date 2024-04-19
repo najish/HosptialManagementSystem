@@ -36,6 +36,6 @@ router.post('/add-doctor',uploadDoctor.single('profile'),addDoctorValidation,add
 router.put('/edit-doctor/:id',uploadDoctor.single('profile'),editDoctorValidation,editDoctor)
 router.delete('/delete-doctor/:id',deleteDoctorValidation,deleteDoctor)
 router.get('/doctors',getDoctors)
-router.delete('/doctor/:id',getDoctorValidation,getDoctor)
+router.get('/doctor/:id',getDoctorValidation,getDoctor)
 
 module.exports = router

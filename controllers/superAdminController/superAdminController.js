@@ -3,6 +3,7 @@ const Receptionist = require('../../models/receptionist')
 const {validationResult} = require('express-validator')
 const fs = require('fs')
 const path = require('path')
+const bcrypt = require('bcrypt')
 
 // doctor handlers
 const addDoctor = async (req,res) => {
@@ -147,6 +148,14 @@ const addReceptionist = async (req,res) => {
             ...req.body,
             receptionistImage: file.path
         }
+
+
+        // const salt = bcrypt.genSaltSync(10)
+
+        // const passHash = bcrypt.hashSync(model.password, salt)
+
+        // model.password = passHash
+
 
         console.log(model)
         const receptionist = await Receptionist.create(model)
