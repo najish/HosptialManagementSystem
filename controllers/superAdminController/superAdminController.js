@@ -159,31 +159,6 @@ const loginReceptionist = async (req,res) => {
         else 
             return res.send('Logged Sucessfully')
 
-       
-
-        // if(!error.isEmpty()) {
-        //     return res.send(error.array())
-        // } 
-        // const {username, password} = body
-
-        // console.log(username, password)
-        // const receptionist = await Receptionist.findOne({
-        //     where: {
-        //         username: username
-        //     }
-        // })
-
-        // if(!receptionist) {
-        //     return res.send('receptionist not found')
-        // }
-
-        // const valid = bcrypt.compare(password,receptionist.password)
-
-        // if(!valid)
-        //     return res.send('invalid credential')
-        // else 
-        //     return res.send('Receptionist Logged In Sucessfully')
-
     } catch(err) {
         console.log('failed')
         return res.send(err)
