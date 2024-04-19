@@ -6,6 +6,37 @@ const path = require('path')
 const bcrypt = require('bcrypt')
 
 // doctor handlers
+
+const loginDoctor = async(req,res) => {
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()) {
+        return res.send(errors.array())
+    }
+
+    const {username, password} = req.body
+
+    const doctor = await Doctor.findOne({
+        where: {
+            username:username
+        }
+    })
+
+    if(!doctor) {
+        return res.send('doctor not found')
+    }
+
+    const valid = bcrypt.compareSync(password, doctor.password)
+
+    if(!valid) {
+        return res.send('invalid doctor credential')
+    }
+    else return res.json({
+        message: "login sucessfully",
+        doctor
+    })
+
+}
 const addDoctor = async (req,res) => {
     try {
         const {body, file} = req
@@ -22,6 +53,10 @@ const addDoctor = async (req,res) => {
             ...body,
         }
         doctorModel.profile = file.path
+
+        const salt = bcrypt.genSaltSync(10)
+        const passwordHash = bcrypt.hashSync(doctorModel.password,salt)
+        doctorModel.password = passwordHash
 
         console.log(doctorModel)
         const doctor = await Doctor.create(doctorModel)
@@ -183,7 +218,6 @@ const addReceptionist = async (req,res) => {
             receptionistImage: file.path
         }
 
-
         const salt = bcrypt.genSaltSync(10)
         const passHash = bcrypt.hashSync(model.password, salt)
         model.password = passHash
@@ -306,4 +340,4 @@ const getReceptionist = async (req,res) => {
 
 
 
-module.exports = {addDoctor, editDoctor, deleteDoctor, getDoctors, getDoctor,loginReceptionist, addReceptionist, editReceptionist, deleteReceptionist, getReceptionist, getReceptionists}
+module.exports = {loginDoctor,addDoctor, editDoctor, deleteDoctor, getDoctors, getDoctor,loginReceptionist, addReceptionist, editReceptionist, deleteReceptionist, getReceptionist, getReceptionists}

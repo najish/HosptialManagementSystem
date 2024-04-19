@@ -13,13 +13,14 @@ const {addReceptionistValidation, deleteReceptionistValidation, editReceptionist
 
 // doctor required
 
-const {addDoctorValidation, editDoctorValidation, deleteDoctorValidation, getDoctorValidation} = require('../../middlewares/superAdminMiddleware/doctorMiddleware/doctorValidation')
+const {loginDoctorValidation,addDoctorValidation, editDoctorValidation, deleteDoctorValidation, getDoctorValidation} = require('../../middlewares/superAdminMiddleware/doctorMiddleware/doctorValidation')
 
 const {addDoctor, editDoctor, deleteDoctor, 
     getDoctors, getDoctor, addReceptionist, 
     editReceptionist, deleteReceptionist, getReceptionist, 
     getReceptionists,
-    loginReceptionist} = require('../../controllers/superAdminController/superAdminController')
+    loginReceptionist,
+    loginDoctor} = require('../../controllers/superAdminController/superAdminController')
     
 
 // list of receptionist routes
@@ -28,7 +29,7 @@ router.post('/add-receptionist',upload.single('receptionistImage'),addReceptioni
 router.put('/edit-receptionist/:id',upload.single('receptionistImage'),editReceptionistValidation,editReceptionist)
 router.delete('/delete-receptionist/:id',deleteReceptionistValidation,deleteReceptionist)
 router.get('/receptionist',getReceptionists)
-router.get('/receptionist/login',upload.none(),loginReceptionistValidation,loginReceptionist)
+router.post('/receptionist/login',upload.none(),loginReceptionistValidation,loginReceptionist)
 router.get('/receptionist/:id',getReceptionistValidation,getReceptionist)
 
 // list of doctors routesreceptionistImage
@@ -37,6 +38,7 @@ router.post('/add-doctor',uploadDoctor.single('profile'),addDoctorValidation,add
 router.put('/edit-doctor/:id',uploadDoctor.single('profile'),editDoctorValidation,editDoctor)
 router.delete('/delete-doctor/:id',deleteDoctorValidation,deleteDoctor)
 router.get('/doctors',getDoctors)
+router.post('/doctor/login',uploadDoctor.none(),loginDoctorValidation,loginDoctor)
 router.get('/doctor/:id',getDoctorValidation,getDoctor)
 
 module.exports = router

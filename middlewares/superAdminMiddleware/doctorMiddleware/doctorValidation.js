@@ -1,5 +1,10 @@
 const {body, param, validationResult} = require('express-validator')
 
+const loginDoctorValidation = [
+    body('username').trim().notEmpty().withMessage('username cannot hello empty'),
+    body('password').trim().notEmpty().withMessage('password cannot empty')
+]
+
 const addDoctorValidation = [
     body('firstName').trim().notEmpty().withMessage('firstname cant be empty'),
     body('lastName').trim().notEmpty().withMessage('lastname cant be empty'),
@@ -34,4 +39,4 @@ const getDoctorValidation = [
 ]
 
 
-module.exports = {addDoctorValidation, editDoctorValidation, deleteDoctorValidation, getDoctorValidation}
+module.exports = {loginDoctorValidation, addDoctorValidation, editDoctorValidation, deleteDoctorValidation, getDoctorValidation}
