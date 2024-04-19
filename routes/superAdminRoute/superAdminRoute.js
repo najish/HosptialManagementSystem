@@ -32,7 +32,7 @@ router.get('/receptionist',getReceptionists)
 router.post('/receptionist/login',upload.none(),loginReceptionistValidation,loginReceptionist)
 router.get('/receptionist/:id',getReceptionistValidation,getReceptionist)
 
-// list of doctors routesreceptionistImage
+// list of doctors routes
 
 router.post('/add-doctor',uploadDoctor.single('profile'),addDoctorValidation,addDoctor)
 router.put('/edit-doctor/:id',uploadDoctor.single('profile'),editDoctorValidation,editDoctor)

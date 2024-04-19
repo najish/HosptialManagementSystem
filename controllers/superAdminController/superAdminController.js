@@ -207,7 +207,7 @@ const addReceptionist = async (req,res) => {
     try {
         const {body, file} = req
         const errors = validationResult(req)
-        
+
         if(!errors.isEmpty()) {
             fs.unlink(file.path, err=> {
                 if(err) throw new Error('failed to unlink the new file')
@@ -268,6 +268,9 @@ const editReceptionist = async (req,res) => {
             else console.log('exisiting file deleted')
         })
         
+        const salt = bcrypt.genSaltSync(10)
+        console.log(model.password)
+        const passwordHash = bcrypt.hashSync(model.password)
 
         receptionist.receptionistName = model.receptionistName
         receptionist.contactNumber = model.contactNumber
@@ -276,12 +279,12 @@ const editReceptionist = async (req,res) => {
         receptionist.totalRegFeeCollected = model.totalRegFeeCollected
         receptionist.receptionistListId = model.receptionistListId
         receptionist.username = model.username
-        receptionist.password = model.password
+        receptionist.password = passwordHash
         receptionist.receptionistImage = file.path
         receptionist.lastLoggedIn = model.lastLoggedIn
         receptionist.loginStatus = model.loginStatus
         
-        await receptionist.save()
+        receptionist.save().then(() => console.log('saved sucessfully')).catch(err => console.log(err))
         return res.send(receptionist)
     } catch(err) {
         return res.send(err)
