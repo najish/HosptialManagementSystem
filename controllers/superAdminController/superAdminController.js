@@ -131,6 +131,68 @@ const getDoctor = async (req,res) => {
 
 // Receptionist handlers
 
+
+const loginReceptionist = async (req,res) => {
+    try {
+        const {username, password} = req.body
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+            return res.send(errors.array())
+        }
+
+        const receptionist = await Receptionist.findOne({
+            where: {
+                username: username
+            }
+        })
+
+        if(!receptionist) {
+            return res.send('receptionist not found')
+        }
+
+        const valid = bcrypt.compareSync(password, receptionist.password)
+
+        if(!valid) {
+            return res.send('invalid credential')
+        }
+        else 
+            return res.send('Logged Sucessfully')
+
+       
+
+        // if(!error.isEmpty()) {
+        //     return res.send(error.array())
+        // } 
+        // const {username, password} = body
+
+        // console.log(username, password)
+        // const receptionist = await Receptionist.findOne({
+        //     where: {
+        //         username: username
+        //     }
+        // })
+
+        // if(!receptionist) {
+        //     return res.send('receptionist not found')
+        // }
+
+        // const valid = bcrypt.compare(password,receptionist.password)
+
+        // if(!valid)
+        //     return res.send('invalid credential')
+        // else 
+        //     return res.send('Receptionist Logged In Sucessfully')
+
+    } catch(err) {
+        console.log('failed')
+        return res.send(err)
+    }
+    // const {username, password} = req.body
+    // console.log(username, password)
+    // return res.send('login')
+}
+
 const addReceptionist = async (req,res) => {
     try {
         const {body, file} = req
@@ -150,13 +212,9 @@ const addReceptionist = async (req,res) => {
         }
 
 
-        // const salt = bcrypt.genSaltSync(10)
-
-        // const passHash = bcrypt.hashSync(model.password, salt)
-
-        // model.password = passHash
-
-
+        const salt = bcrypt.genSaltSync(10)
+        const passHash = bcrypt.hashSync(model.password, salt)
+        model.password = passHash
         console.log(model)
         const receptionist = await Receptionist.create(model)
         return res.send(receptionist)
@@ -276,4 +334,4 @@ const getReceptionist = async (req,res) => {
 
 
 
-module.exports = {addDoctor, editDoctor, deleteDoctor, getDoctors, getDoctor, addReceptionist, editReceptionist, deleteReceptionist, getReceptionist, getReceptionists}
+module.exports = {addDoctor, editDoctor, deleteDoctor, getDoctors, getDoctor,loginReceptionist, addReceptionist, editReceptionist, deleteReceptionist, getReceptionist, getReceptionists}

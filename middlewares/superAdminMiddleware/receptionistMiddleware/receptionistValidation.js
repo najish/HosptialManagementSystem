@@ -1,6 +1,12 @@
 const {body, param, validationResult} = require('express-validator')
 
 
+const loginReceptionistValidation = [
+    body('username').trim().notEmpty().withMessage('username cannot be empty'),
+    body('password').trim().notEmpty().withMessage('password cannot be empty'),
+
+]
+
 const addReceptionistValidation = [
     body('receptionistName').trim().notEmpty().withMessage('receptionistName cant be empty'),
     body('contactNumber').trim().notEmpty().withMessage('contactNumber number cant be empty'),
@@ -40,4 +46,4 @@ const getReceptionistValidation = [
 ]
 
 
-module.exports = {addReceptionistValidation, editReceptionistValidation, deleteReceptionistValidation, getReceptionistValidation}
+module.exports = {loginReceptionistValidation,addReceptionistValidation, editReceptionistValidation, deleteReceptionistValidation, getReceptionistValidation}

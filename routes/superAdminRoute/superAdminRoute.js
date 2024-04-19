@@ -9,7 +9,7 @@ const uploadDoctor = doctorMulterConfig()
 
 // receptionist required
 
-const {addReceptionistValidation, deleteReceptionistValidation, editReceptionistValidation, getReceptionistValidation} = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/receptionistValidation')
+const {addReceptionistValidation, deleteReceptionistValidation, editReceptionistValidation, getReceptionistValidation,loginReceptionistValidation} = require('../../middlewares/superAdminMiddleware/receptionistMiddleware/receptionistValidation')
 
 // doctor required
 
@@ -18,7 +18,8 @@ const {addDoctorValidation, editDoctorValidation, deleteDoctorValidation, getDoc
 const {addDoctor, editDoctor, deleteDoctor, 
     getDoctors, getDoctor, addReceptionist, 
     editReceptionist, deleteReceptionist, getReceptionist, 
-    getReceptionists} = require('../../controllers/superAdminController/superAdminController')
+    getReceptionists,
+    loginReceptionist} = require('../../controllers/superAdminController/superAdminController')
     
 
 // list of receptionist routes
@@ -27,8 +28,8 @@ router.post('/add-receptionist',upload.single('receptionistImage'),addReceptioni
 router.put('/edit-receptionist/:id',upload.single('receptionistImage'),editReceptionistValidation,editReceptionist)
 router.delete('/delete-receptionist/:id',deleteReceptionistValidation,deleteReceptionist)
 router.get('/receptionist',getReceptionists)
+router.get('/receptionist/login',upload.none(),loginReceptionistValidation,loginReceptionist)
 router.get('/receptionist/:id',getReceptionistValidation,getReceptionist)
-
 
 // list of doctors routesreceptionistImage
 
