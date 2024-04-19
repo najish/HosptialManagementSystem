@@ -163,9 +163,6 @@ const loginReceptionist = async (req,res) => {
         console.log('failed')
         return res.send(err)
     }
-    // const {username, password} = req.body
-    // console.log(username, password)
-    // return res.send('login')
 }
 
 const addReceptionist = async (req,res) => {
