@@ -203,7 +203,8 @@ const loginReceptionist = async (req,res) => {
 const addReceptionist = async (req,res) => {
     try {
         const {body, file} = req
-
+        console.log(body)
+        console.log(file)
         const errors = validationResult(req)
         if(!errors.isEmpty()) {
             fs.unlink(file.path, err=> {
@@ -221,11 +222,11 @@ const addReceptionist = async (req,res) => {
         const salt = bcrypt.genSaltSync(10)
         const passHash = bcrypt.hashSync(model.password, salt)
         model.password = passHash
-        console.log(model)
         const receptionist = await Receptionist.create(model)
         return res.send(receptionist)
 
     } catch(err) {
+        console.log('failed')
         return res.send(err)
     }
 }

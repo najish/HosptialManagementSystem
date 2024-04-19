@@ -36,9 +36,10 @@ const Receptionist = sequelize.define('receptionist',{
     },
     
 
-    receptionistListId: {
+    receptionistId: {
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        unique: true
     },
     
     username: {
