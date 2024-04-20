@@ -39,6 +39,7 @@ const loginDoctor = async(req,res) => {
     })
 
 }
+
 const addDoctor = async (req,res) => {
     try {
         const {body, file} = req
@@ -110,19 +111,15 @@ const editDoctor = async (req,res) => {
             else console.log('deleted the previous image of the doctor')
         })
 
-        doctor.firstName = model.firstName
-        doctor.lastName = model.lastName
-        doctor.email = model.email
-        doctor.city = model.city
-        doctor.about = model.about
-        doctor.enabled = model.enabled
-        doctor.profile = file.path
-        doctor.username = model.username
 
         const salt = bcrypt.genSaltSync(10)
         const passwordHash = bcrypt.hashSync(model.password, salt)
-        doctor.password = passwordHash
+        
+        model.password = passwordHash
+        model.profile = file.path
+        
         console.log(doctor)
+        doctor.set(model)
         await doctor.save()
         res.send(doctor)
     } catch(err) {
@@ -145,6 +142,8 @@ const deleteDoctor = async (req,res) => {
         if(!doctor) {
             return res.send('doctor not found')
         }
+
+        fs.unlinkSync(doctor.profile)
         await doctor.destroy()
         res.send('deleted doctor')
     } catch(err) {
