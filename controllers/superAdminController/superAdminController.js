@@ -264,9 +264,20 @@ const editReceptionist = async (req,res) => {
         const errors = validationResult(req)
         const {body, file} = req
         const model = req.body
+
+
         if(!errors.isEmpty()) {
+            fs.unlink(file.path, err => {
+                if(err) {
+                    console.log('failed to unlink the exisiting receptionist image becouse validation error')
+                    return res.send(err)
+                }
+                else console.log('receptionist not found so deleted the newly added image')
+            })
             return res.send(errors.array())
         }
+
+
 
         
         const receptionist = await Receptionist.findByPk(req.params.id)
@@ -278,46 +289,32 @@ const editReceptionist = async (req,res) => {
                     console.log('failed to unlink the exisiting receptionist image becouse or file.path is not valid or undefined')
                     return res.send(err)
                 }
-                else console.log('user not found so deleted the newly added image')
+                else console.log('receptionist not found so deleted the newly added image')
             })
             return res.send('receptionist not found')
         }
 
         
-        fs.unlink(receptionist.receptionistImage,err => {
-            if(err) {
-                console.log('failed to delete exsisting file',err)
-                return res.send(err)
-            }
-            else console.log('exisiting file deleted')
-        })
-        
+
+        fs.unlinkSync(receptionist.receptionistImage)
+
+        console.log("Hello ")
         const salt = bcrypt.genSaltSync(10)
-        const passwordHash = bcrypt.hashSync(model.password)
-
-        // receptionist.receptionistName = model.receptionistName
-        // receptionist.contactNumber = model.contactNumber
-        // receptionist.email = model.email
-        // receptionist.totalRegisteredPatients = model.totalRegisteredPatients
-        // receptionist.totalRegFeeCollected = model.totalRegFeeCollected
-        // receptionist.receptionistListId = model.receptionistListId
-        // receptionist.username = model.username
-        // receptionist.password = passwordHash
-        // receptionist.receptionistImage = file.path
-        // receptionist.lastLoggedIn = model.lastLoggedIn
-        // receptionist.loginStatus = model.loginStatus
-
+        const passwordHash = bcrypt.hashSync(model.password,salt)
         model.password = passwordHash
+        model.receptionistImage = file.path
         console.log(model)
+
         receptionist.set(model)
         await receptionist.save()
-        // receptionist.save().then(() => console.log('saved sucessfully')).catch(err => console.log(err))
-        // receptionist.save().th
-        return res.send(receptionist)
+        return res.send("edit receptionist")
+
     } catch(err) {
         return res.send(err)
     }
 }
+
+
 
 const deleteReceptionist = async (req,res) => {
     try {

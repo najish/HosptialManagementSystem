@@ -2,9 +2,12 @@ use hospitalmanagementsystem;
 show tables;
 
 select * from receptionist;
+
 select * from doctor;
 select * from patient;
 
+
+drop table receptionist;
 
 
 

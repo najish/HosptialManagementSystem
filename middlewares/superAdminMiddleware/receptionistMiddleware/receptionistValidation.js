@@ -37,7 +37,7 @@ const editReceptionistValidation = [
     body('username').trim().notEmpty().withMessage('username cant be empty'),
     body('password').trim().notEmpty().withMessage('password number cant be empty'),
     body('lastLoggedIn').trim().notEmpty().withMessage('lastLoggedIn cant be empty'),
-    body('loginStatus').trim().notEmpty().withMessage('loginstatus cannot be empty')
+    body('loginStatus').trim().notEmpty().withMessage('loginstatus cannot be empty'),
 ]
 
 
