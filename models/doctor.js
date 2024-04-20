@@ -5,7 +5,7 @@ const Doctor = sequelize.define('Doctor',{
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4
+        defaultValue: DataTypes.UUIDV4,
     },
     
     firstName: {
@@ -19,14 +19,14 @@ const Doctor = sequelize.define('Doctor',{
     },
 
     email: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique:true
     },
 
     city: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     },
 
     about: {
@@ -46,7 +46,8 @@ const Doctor = sequelize.define('Doctor',{
 
     username: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique:true
     },
     password: {
         type: DataTypes.STRING,

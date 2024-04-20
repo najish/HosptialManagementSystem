@@ -5,6 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const bcrypt = require('bcrypt')
 const { error } = require('console')
+const { captureRejectionSymbol } = require('events')
 
 // doctor handlers
 
@@ -44,7 +45,10 @@ const addDoctor = async (req,res) => {
         const errors = validationResult(req)
         if(!errors.isEmpty()) {
             fs.unlink(file.path, err => {
-                if(err) throw new Error('failed to delete the newly added file')
+                if(err) {
+                    console.log('failed to unlink the newly added file becouse of either validation error or file path is not valid or not exisits')
+                    return res.send(err)
+                }
                 else console.log('deleted newly added doctor image')
             })
             return res.status(400).send(errors.array())
@@ -64,7 +68,7 @@ const addDoctor = async (req,res) => {
         return res.send(doctor)
         
     } catch(err) {
-        return res.send("failed to create doctor record")
+        return res.json(err)
     }
 }
 
@@ -76,7 +80,10 @@ const editDoctor = async (req,res) => {
 
         if(!errors.isEmpty()) {
             fs.unlink(file.path, err => {
-                if(err) throw new Error('failed to delete newly added doctor image',err)
+                if(err) {
+                    console.log('failed to unlink the newly added file')
+                    return res.send(err)
+                }
                 else console.log('deleted update doctor image becouse of validation error')
             })
             return res.send(errors.array())
@@ -86,14 +93,20 @@ const editDoctor = async (req,res) => {
 
         if(!doctor) {
             fs.unlink(file.path, err => {
-                if(err) throw new Error('doctor not found to update the details', err)
+                if(err) {
+                    console.log(err)                    
+                    return res.send(err)
+                }
                 else console.log('doctor not found to update the image, so delete the image')
             })
             return res.send('doctor not found')
         }
 
         fs.unlink(doctor.profile, err => {
-            if(err) throw new Error('failed to delete the existing doctor image')
+            if(err) {
+                console.log(err)
+                return res.send(err)
+            }
             else console.log('deleted the previous image of the doctor')
         })
 
@@ -105,11 +118,15 @@ const editDoctor = async (req,res) => {
         doctor.enabled = model.enabled
         doctor.profile = file.path
         doctor.username = model.username
-        doctor.password = model.password
 
+        const salt = bcrypt.genSaltSync(10)
+        const passwordHash = bcrypt.hashSync(model.password, salt)
+        doctor.password = passwordHash
+        console.log(doctor)
         await doctor.save()
         res.send(doctor)
     } catch(err) {
+        console.log(err)
         return res.send(err)
     }
 }
@@ -210,7 +227,10 @@ const addReceptionist = async (req,res) => {
 
         if(!errors.isEmpty()) {
             fs.unlink(file.path, err=> {
-                if(err) throw new Error('failed to unlink the new file')
+                if(err) {
+                    console.log('failed to unlink the newly added receptionist image')
+                    return res.send(err)
+                }
                 else console.log('failed to uplaod the file becous of validation error')
             })
             return res.send(errors.array())
@@ -245,10 +265,6 @@ const editReceptionist = async (req,res) => {
         const {body, file} = req
         const model = req.body
         if(!errors.isEmpty()) {
-            fs.unlink(file.path, err=> {
-                if(err) throw new Error('failed to delete the newly added image file',err)
-                else console.log('deleted the receptionist image becouse of validation error')
-            })
             return res.send(errors.array())
         }
 
@@ -258,36 +274,45 @@ const editReceptionist = async (req,res) => {
         
         if(!receptionist) { 
             fs.unlink(file.path, err => {
-                if(err) throw new Error('user not found')
+                if(err) {
+                    console.log('failed to unlink the exisiting receptionist image becouse or file.path is not valid or undefined')
+                    return res.send(err)
+                }
                 else console.log('user not found so deleted the newly added image')
             })
             return res.send('receptionist not found')
         }
 
-        console.log(receptionist.dataValues)
         
         fs.unlink(receptionist.receptionistImage,err => {
-            if(err) throw new Error(err)
+            if(err) {
+                console.log('failed to delete exsisting file',err)
+                return res.send(err)
+            }
             else console.log('exisiting file deleted')
         })
         
         const salt = bcrypt.genSaltSync(10)
-        console.log(model.password)
         const passwordHash = bcrypt.hashSync(model.password)
 
-        receptionist.receptionistName = model.receptionistName
-        receptionist.contactNumber = model.contactNumber
-        receptionist.email = model.email
-        receptionist.totalRegisteredPatients = model.totalRegisteredPatients
-        receptionist.totalRegFeeCollected = model.totalRegFeeCollected
-        receptionist.receptionistListId = model.receptionistListId
-        receptionist.username = model.username
-        receptionist.password = passwordHash
-        receptionist.receptionistImage = file.path
-        receptionist.lastLoggedIn = model.lastLoggedIn
-        receptionist.loginStatus = model.loginStatus
-        
-        receptionist.save().then(() => console.log('saved sucessfully')).catch(err => console.log(err))
+        // receptionist.receptionistName = model.receptionistName
+        // receptionist.contactNumber = model.contactNumber
+        // receptionist.email = model.email
+        // receptionist.totalRegisteredPatients = model.totalRegisteredPatients
+        // receptionist.totalRegFeeCollected = model.totalRegFeeCollected
+        // receptionist.receptionistListId = model.receptionistListId
+        // receptionist.username = model.username
+        // receptionist.password = passwordHash
+        // receptionist.receptionistImage = file.path
+        // receptionist.lastLoggedIn = model.lastLoggedIn
+        // receptionist.loginStatus = model.loginStatus
+
+        model.password = passwordHash
+        console.log(model)
+        receptionist.set(model)
+        await receptionist.save()
+        // receptionist.save().then(() => console.log('saved sucessfully')).catch(err => console.log(err))
+        // receptionist.save().th
         return res.send(receptionist)
     } catch(err) {
         return res.send(err)
@@ -305,10 +330,16 @@ const deleteReceptionist = async (req,res) => {
 
         const receptionist = await Receptionist.findByPk(id)
 
-
         if(!receptionist) {
             return res.status(400).send('receptionist not found')
         }
+
+        fs.unlink(receptionist.receptionistImage, err => {
+            if(err) {
+                console.log(err)
+                return res.send(err)
+            }
+        })
         await receptionist.destroy()
         return res.send('deleted Receptionist')
     } catch(err) {
