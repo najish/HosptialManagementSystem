@@ -69,6 +69,16 @@ const addDoctor = async (req,res) => {
         return res.send(doctor)
         
     } catch(err) {
+
+        const {file} = req
+
+        fs.unlink(file.path, err => {
+            if(err) {
+                console.log('failed to unlink the newly added file')
+                return res.send(err)
+            }
+        })
+
         return res.json(err)
     }
 }
@@ -243,15 +253,21 @@ const addReceptionist = async (req,res) => {
         const salt = bcrypt.genSaltSync(10)
         const passHash = bcrypt.hashSync(model.password, salt)
         model.password = passHash
+
+
         const receptionist = await Receptionist.create(model)
         return res.send(receptionist)
 
     } catch(err) {
-        console.log('failed : add receptionist')
-        return res.json({
-            message:"error",
-            error: err
+        const {file } = req
+        fs.unlink(file.path, err => {
+            if(err) {
+                console.log('failed to unlink the file')
+                return res.send(err)
+            }
         })
+        console.log('failed : add receptionist')
+        return res.send(err)
     }
 
 }
