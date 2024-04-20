@@ -257,8 +257,6 @@ const addReceptionist = async (req,res) => {
 
 }
 
-
-
 const editReceptionist = async (req,res) => {
     try {
         const errors = validationResult(req)
@@ -313,7 +311,6 @@ const editReceptionist = async (req,res) => {
         return res.send(err)
     }
 }
-
 
 
 const deleteReceptionist = async (req,res) => {
@@ -375,8 +372,5 @@ const getReceptionist = async (req,res) => {
         return res.send(err)
     }
 }
-
-
-
 
 module.exports = {loginDoctor,addDoctor, editDoctor, deleteDoctor, getDoctors, getDoctor,loginReceptionist, addReceptionist, editReceptionist, deleteReceptionist, getReceptionist, getReceptionists}
