@@ -30,7 +30,7 @@ const editDoctorValidation = [
     body('about').trim().notEmpty().withMessage('about cant be empty'),
     body('enabled').trim().notEmpty().withMessage('enabled cant be empty & it\'s boolean'),
     body('username').notEmpty().withMessage('username cannot be empty'),
-    body('password').notEmpty().withMessage('password cannot be empty')
+    body('password').notEmpty().withMessage('password cannot be empty'),
 ]
 
 

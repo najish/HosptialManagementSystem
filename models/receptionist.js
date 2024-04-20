@@ -21,7 +21,8 @@ const Receptionist = sequelize.define('receptionist',{
 
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique:true
     },
 
     totalRegisteredPatients: {
@@ -36,14 +37,16 @@ const Receptionist = sequelize.define('receptionist',{
     },
     
 
-    receptionistListId: {
+    receptionistId: {
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        unique: true
     },
     
     username: {
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        unique:true
     },
     
     password: {
